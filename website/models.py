@@ -7,6 +7,9 @@ class Note(db.Model):
     data = db.Column(db.String(15000))
     date = db.Column(db.DateTime(timezone=True), default=func.now())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+# store books to users
+
     
 
 class User(db.Model, UserMixin):
