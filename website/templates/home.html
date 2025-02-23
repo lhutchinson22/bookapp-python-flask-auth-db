@@ -1,10 +1,10 @@
 {% extends "base.html" %} {% block title %}Changed{% endblock %} {% block
 content %}
-<h1 align="center">Notes</h1>
+<h1 align="center">What are you reading today?</h1>
 <ul class="list-group list-group-flush" id="notes">
   {% for note in user.notes %}
   <li class="list-group-item">
-    {{ note.data }}
+    <strong>{{ note.book_title }}</strong>: {{ note.data }}
     <button
       type="button"
       class="close"
@@ -16,7 +16,23 @@ content %}
   </li>
   {% endfor %}
 </ul>
+
 <form method="POST">
+  <!-- Book search form -->
+  <div align="center">
+    <input
+      type="text"
+      id="book-search"
+      class="form-control"
+      placeholder="Search for books"
+    />
+    <button type="button" class="btn btn-primary" onclick="searchBooks()">
+      Search
+    </button>
+  </div>
+  <br />
+  <div id="book-results" class="list-group"></div>
+  <input type="hidden" name="book_title" id="selected-book-title" />
   <textarea name="note" id="note" class="form-control"></textarea>
   <br />
   <div align="center">

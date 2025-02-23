@@ -8,8 +8,9 @@
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
   </head>
-  <title>{% block title %}Home{% endblock %}</title>
+  <title>{% block title %}My Book App{% endblock %}</title>
 
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -32,6 +33,20 @@
           {% endif %}
       </div>
     </nav>
+
+    {% if user.is_authenticated %}
+      <!-- Banner with circles -->
+      <div class="banner" style="text-align: left;">
+        <h2 style="display: inline-block; vertical-align: top; margin-right: 20px;">Friends</h2>
+        <div style="display: inline-block;">
+        <div class="circle">lauren</div>
+        <div class="circle">marcela</div>
+        <div class="circle">ana</div>
+        <div class="circle">kimberley</div>
+        <div class="circle">mark</div>
+        </div>
+      </div>
+    {% endif %}
 
     {% with messages = get_flashed_messages(with_categories= true) %}
       {% if messages %}

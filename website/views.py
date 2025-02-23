@@ -1,22 +1,30 @@
-from flask import Blueprint, render_template, request, flash
+from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import login_required, current_user
 from .models import Note
 from . import db
 import json
-from flask import jsonify
+from .book_api import search_books  # Ensure this import is correct
 
 views = Blueprint('views', __name__)
+
+@views.route('/search-books', methods=['GET'])
+def search_books_route():
+    query = request.args.get('query')
+    books = search_books(query)
+    return jsonify(books)
 
 @views.route('/', methods=["GET", "POST"])
 @login_required
 def home():
     if request.method == "POST":
         note = request.form.get('note')
+        book_title = request.form.get('book_title')
 
         if len(note) < 1:
-            flash('Note is too short!', category='error')
+            flash("no note added")
+            #flash('Note is too short!', category='error')
         else:
-            new_note = Note(data=note, user_id=current_user.id)
+            new_note = Note(data=note, user_id=current_user.id, book_title=book_title)
             db.session.add(new_note)
             db.session.commit()
             flash('Note added!', category='success')
