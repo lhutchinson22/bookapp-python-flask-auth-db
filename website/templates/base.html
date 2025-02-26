@@ -8,7 +8,10 @@
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
   </head>
   <title>{% block title %}My Book App{% endblock %}</title>
 
@@ -25,17 +28,37 @@
       <div class="collapse navbar-collapse" id="navbar">
         <div class="navbar-nav">
           {% if user.is_authenticated %}
-          <a class="nav-item nav-link"id="home" href="/">Home</a>
-          <a class="nav-item nav-link"id="logout" href="/logout">Log Out</a>
+          <a class="nav-item nav-link" id="home" href="/">Home</a>
+          <a class="nav-item nav-link" id="logout" href="/logout">Log Out</a>
           {% else %}
           <a class="nav-item nav-link" id="login" href="/login">Login</a>
           <a class="nav-item nav-link" id="sigUp" href="/sign-up">Sign Up</a>
           {% endif %}
+        </div>
+        <div class="ml-auto">
+          <div class="dropdown">
+            <button
+              class="btn btn-secondary dropdown-toggle"
+              type="button"
+              id="themeDropdown"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Theme
+            </button>
+            <div class="dropdown-menu" aria-labelledby="themeDropdown">
+              <a class="dropdown-item" href="#" id="light-mode">Light</a>
+              <a class="dropdown-item" href="#" id="dark-mode">Dark</a>
+            </div>
+          </div>
+        </div>
       </div>
     </nav>
 
     {% if user.is_authenticated %}
-      <!-- Banner with circles -->
+    <!-- Banner with circles -->
+    <!--
       <div class="banner" style="text-align: left;">
         <h2 style="display: inline-block; vertical-align: top; margin-right: 20px;">Friends</h2>
         <div style="display: inline-block;">
@@ -46,31 +69,26 @@
         <div class="circle">mark</div>
         </div>
       </div>
-    {% endif %}
-
-    {% with messages = get_flashed_messages(with_categories= true) %}
-      {% if messages %}
-          {% for category, message in messages %}
-          {% if category == "error" %}
-              <div class="alert alert-danger alter-dismissable fade show" role="alert">{{ message }}
-                  <button type="button" class="close" data-dismiss="alert">
-                      <span aria-hidden="true">&times;</span>
-                  </button>
-              </div>
-          {% else %}
-              <div class="alert alert-success alter-dismissable fade show" role="alert">{{ message }}
-                <button type="button" class="close" data-dismiss="alert">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            {% endif %}
-          {% endfor %}
-      {% endif %}
-    {% endwith %}
-
-    <div class="container">
-      {% block content %}{% endblock %}
+      -->
+    {% endif %} {% with messages = get_flashed_messages(with_categories= true)
+    %} {% if messages %} {% for category, message in messages %} {% if category
+    == "error" %}
+    <div class="alert alert-danger alter-dismissable fade show" role="alert">
+      {{ message }}
+      <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
+    {% else %}
+    <div class="alert alert-success alter-dismissable fade show" role="alert">
+      {{ message }}
+      <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endif %} {% endfor %} {% endif %} {% endwith %}
+
+    <div class="container">{% block content %}{% endblock %}</div>
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -80,5 +98,21 @@
       type="text/javascript"
       src="{{ url_for('static', filename= 'index.js') }}"
     ></script>
+    <script>
+      document
+        .getElementById("light-mode")
+        .addEventListener("click", function () {
+          document.body.classList.remove("dark-mode");
+          document.body.style.backgroundColor = "#ffffff";
+          document.body.style.color = "#000000";
+        });
+      document
+        .getElementById("dark-mode")
+        .addEventListener("click", function () {
+          document.body.classList.add("dark-mode");
+          document.body.style.backgroundColor = "#121212";
+          document.body.style.color = "#ffffff";
+        });
+    </script>
   </body>
 </html>
